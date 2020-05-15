@@ -69,11 +69,6 @@ async function getAllUsers() {
 
 async function getUserById(userId) {
   try {
-    // const { rows: [user] } = client.query(`
-    //     SELECT id, username, name, location, active
-    //     From users
-    //     WHERE id=${userId}
-    //   `);
     const {
       rows: [user],
     } = await client.query(`
