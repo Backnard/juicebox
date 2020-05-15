@@ -78,13 +78,18 @@ async function getUserById(userId) {
     // then add the posts to the user object with key 'posts'
     // return the user object
     try {
-        const { rows: [user] } = client.query(`
+        // const { rows: [user] } = client.query(`
+        //     SELECT id, username, name, location, active
+        //     From users
+        //     WHERE id=${userId}
+        //   `);
+        const { rows: [ user ] } = await client.query(`
             SELECT id, username, name, location, active
-            From users
-            WHERE id=${userId};
-          `);
+            FROM users
+            WHERE id=${ userId }
+      `);
 
-        if (!rows.length) {
+        if (!user) {
             return null;
         }
 
@@ -160,7 +165,7 @@ async function getAllPosts() {
 
 async function getPostsByUser(userId) {
   try {
-    const { rows } = client.query(`
+    const { rows } = await client.query(`
         SELECT * FROM posts
         WHERE "authorId"=${userId};
       `);
@@ -173,7 +178,12 @@ async function getPostsByUser(userId) {
 
 module.exports = {
     client,
-    getAllUsers,
     createUser,
     updateUser,
+    getAllUsers,
+    getUserById,
+    createPost,
+    updatePost,
+    getAllPosts,
+    getPostsByUser
 }
