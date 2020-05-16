@@ -163,6 +163,7 @@ async function getPostsByUser(userId) {
 }
 
 async function createTags(tagList) {
+  console.log('TAGLIST HERE!!!:', tagList);
   if (tagList.length === 0) { 
     return; 
   }
@@ -180,22 +181,19 @@ async function createTags(tagList) {
   try {
     // insert the tags, doing nothing on conflict
     // returning nothing, we'll query after
-    const {rows} = await client.query(`
+    await client.query(`
       INSERT INTO tags(name)
       VALUES (${insertValues})
       ON CONFLICT (name) DO NOTHING;
-      SELECT * FROM tags
-      WHERE name
-      IN (${selectValues});
-    `)
+    `, tagList)
 
     // select all tags where the name is in our taglist
     // return the rows from the query
-    // rows = await client.query(`
-    //   SELECT * FROM tags
-    //   WHERE name
-    //   IN (${selectValues});
-    // `)
+    const {rows} = await client.query(`
+      SELECT * FROM tags
+      WHERE name
+      IN (${selectValues});
+    `, tagList)
 
     return rows;
   } catch (error) {
@@ -270,5 +268,6 @@ module.exports = {
   createPost,
   updatePost,
   getAllPosts,
-  getPostsByUser,
+  createTags,
+  addTagsToPost,
 };
