@@ -145,49 +145,49 @@ async function updatePost(postId, fields = {}) {
 
   // build the set string
   const setString = Object.keys(fields)
-      .map((key, index) => `"${key}"=$${index + 1}`)
-      .join(", ");
+    .map((key, index) => `"${key}"=$${index + 1}`)
+    .join(", ");
 
   try {
-      // update any fields that need to be updated
-      if (setString.length > 0) {
-          await client.query(
-              `
+    // update any fields that need to be updated
+    if (setString.length > 0) {
+      await client.query(
+        `
       UPDATE posts
       SET ${setString}
       WHERE id=${postId}
       RETURNING *;
     `,
-              Object.values(fields)
-          );
-      }
+        Object.values(fields)
+      );
+    }
 
-      // return early if there's no tags to update
-      if (tags === undefined) {
-          return await getPostById(postId);
-      }
+    // return early if there's no tags to update
+    if (tags === undefined) {
+      return await getPostById(postId);
+    }
 
-      // make any new tags that need to be made
-      const tagList = await createTags(tags);
-      const tagListIdString = tagList.map((tag) => `${tag.id}`).join(", ");
+    // make any new tags that need to be made
+    const tagList = await createTags(tags);
+    const tagListIdString = tagList.map((tag) => `${tag.id}`).join(", ");
 
-      // delete any post_tags from the database which aren't in that tagList
-      await client.query(
-          `
+    // delete any post_tags from the database which aren't in that tagList
+    await client.query(
+      `
     DELETE FROM post_tags
     WHERE "tagId"
     NOT IN (${tagListIdString})
     AND "postId"=$1;
   `,
-          [postId]
-      );
+      [postId]
+    );
 
-      // and create post_tags as necessary
-      await addTagsToPost(postId, tagList);
+    // and create post_tags as necessary
+    await addTagsToPost(postId, tagList);
 
-      return await getPostById(postId);
+    return await getPostById(postId);
   } catch (error) {
-      throw error;
+    throw error;
   }
 }
 
