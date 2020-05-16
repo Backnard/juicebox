@@ -1,6 +1,3 @@
-// inside db/seed.js
-
-// grab our client with destructuring from the export in index.js
 const {
   client,
   createUser,
@@ -10,8 +7,6 @@ const {
   createPost,
   updatePost,
   getAllPosts,
-  createTags,
-  addTagsToPost,
   getPostsByTagName,
 } = require("./index");
 
@@ -91,29 +86,32 @@ async function createInitialPosts() {
     await createPost({
       authorId: albert.id,
       title: "First Post",
-      content: "This is my first post. I hope I love writing blogs as much as I love writing them.",
+      content:
+        "This is my first post. I hope I love writing blogs as much as I love writing them.",
       tags: ["#happy", "#youcandoanything"],
     });
 
-    // a couple more
     await createPost({
       authorId: sandra.id,
       title: "I'm Sandra",
-      content: "My name is Sandra and I'm 10 and I like toys and I like the park and I like the oshin",
+      content:
+        "My name is Sandra and I'm 10 and I like toys and I like the park and I like the oshin",
       tags: ["#happy", "#worst-day-ever"],
     });
 
     await createPost({
       authorId: glamgal.id,
       title: "Hey Al, lookin' good",
-      content: "I made $5000 last month by working for Google part time from home... [link deleted by admin]",
+      content:
+        "I made $5000 last month by working for Google part time from home... [link deleted by admin]",
       tags: ["#happy", "#worst-day-ever"],
     });
 
     await createPost({
       authorId: albert.id,
       title: "Second Post",
-      content: "This is my second post. Turns out I hate writing blogs even though I love writing them",
+      content:
+        "This is my second post. Turns out I hate writing blogs even though I love writing them",
       tags: ["#happy", "#worst-day-ever"],
     });
 
@@ -150,7 +148,7 @@ async function rebuildDB() {
     await createInitialUsers();
     await createInitialPosts();
   } catch (error) {
-    console.log("Error during rebuildDB")
+    console.log("Error during rebuildDB");
     throw error;
   }
 }
@@ -187,7 +185,7 @@ async function testDB() {
 
     console.log("Calling updatePost on posts[1], only updating tags");
     const updatePostTagsResult = await updatePost(posts[1].id, {
-      tags: ["#youcandoanything", "#redfish", "#bluefish"]
+      tags: ["#youcandoanything", "#redfish", "#bluefish"],
     });
     console.log("Result:", updatePostTagsResult);
 
