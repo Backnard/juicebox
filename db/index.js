@@ -154,19 +154,6 @@ async function updatePost(postId, fields = {}) {
 
 async function getAllPosts() {
   try {
-    const { rows } = await client.query(`
-            SELECT *
-            From users;
-        `);
-
-    return rows;
-  } catch (error) {
-    throw error;
-  }
-}
-
-async function getAllPosts() {
-  try {
     const { rows: postIds } = await client.query(`
       SELECT id
       FROM posts;
@@ -229,6 +216,19 @@ async function createTags(tagList) {
     );
 
     return rows;
+  } catch (error) {
+    throw error;
+  }
+}
+
+async function getAllTags() {
+  try {
+    const {rows} = await client.query(`
+      SELECT *
+      FROM tags;
+    `);
+
+    return rows
   } catch (error) {
     throw error;
   }
@@ -337,4 +337,5 @@ module.exports = {
   updatePost,
   getAllPosts,
   getPostsByTagName,
+  getAllTags,
 };

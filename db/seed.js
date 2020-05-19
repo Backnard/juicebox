@@ -69,7 +69,7 @@ async function createInitialUsers() {
       username: "Presto",
       password: "prestoisthebesto",
       name: "PDog",
-      location: "Slo Town, Bro",
+      location: "SLO-Town, Bro",
     });
 
     console.log("Finished creating users!");
