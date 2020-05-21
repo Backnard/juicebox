@@ -87,11 +87,16 @@ async function getUserById(userId) {
 
 async function getUserByUsername(username) {
   try {
-    const { rows: [user] } = await client.query(`
+    const {
+      rows: [user],
+    } = await client.query(
+      `
       SELECT *
       FROM users
       WHERE username=$1
-    `, [username]);
+    `,
+      [username]
+    );
 
     return user;
   } catch (error) {
@@ -237,12 +242,12 @@ async function createTags(tagList) {
 
 async function getAllTags() {
   try {
-    const {rows} = await client.query(`
+    const { rows } = await client.query(`
       SELECT *
       FROM tags;
     `);
 
-    return rows
+    return rows;
   } catch (error) {
     throw error;
   }
