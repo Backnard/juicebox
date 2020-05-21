@@ -7,14 +7,17 @@
     "seed:dev": "nodemon ./db/seed.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js",
-    "start:dev": "nodemon index.js"
+    "start:dev": "node-dev --respawn index.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
     "morgan": "^1.10.0",
+    "node-dev": "^4.0.0",
     "pg": "^8.2.1"
   },
   "devDependencies": {
